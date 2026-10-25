@@ -1,0 +1,21 @@
+# Optional: Drucker-Status per MQTT an Home Assistant
+# Inhalt in mod_data/user.moonraker.conf einfügen, Werte anpassen, dann REBOOT.
+# Erfordert die Python-Bibliothek paho-mqtt in Moonraker. Steht danach im
+# moonraker.log ein Fehler zu "paho", ist MQTT in dieser Moonraker-Version
+# nicht verfügbar – dann die HACS-Integration "Moonraker" nutzen (siehe README).
+
+[mqtt]
+address: 192.168.1.10          # IP des MQTT-Brokers (z. B. HA-Add-on Mosquitto)
+port: 1883
+username: moonraker
+password: BITTE_AENDERN
+instance_name: ad5m_pro
+enable_moonraker_api: True
+status_objs:
+  webhooks
+  print_stats
+  display_status
+  heater_bed=temperature,target
+  extruder=temperature,target
+  temperature_sensor head=temperature
+  temperature_sensor tvocValue=temperature
