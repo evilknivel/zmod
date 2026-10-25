@@ -1,0 +1,19 @@
+# Optional: Home-Assistant-Automation – Drucker-Steckdose nach dem Druck
+# ausschalten, sobald die Düse abgekühlt ist.
+# Entity-Namen an deine Integration anpassen (Beispiel: HACS "Moonraker").
+alias: AD5M Pro nach Druck ausschalten
+triggers:
+  - trigger: state
+    entity_id: sensor.ad5m_pro_current_print_state
+    to: complete
+actions:
+  - wait_template: "{{ states('sensor.ad5m_pro_extruder_temperature') | float(999) < 50 }}"
+    timeout: "00:30:00"
+  - delay: "00:02:00"
+  - condition: state
+    entity_id: sensor.ad5m_pro_current_print_state
+    state: complete
+  - action: switch.turn_off
+    target:
+      entity_id: switch.ad5m_pro_steckdose
+mode: single
